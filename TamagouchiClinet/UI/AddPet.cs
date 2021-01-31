@@ -1,6 +1,11 @@
-﻿using System;
+﻿using TamagouchiClinet.DataTransferObjects;
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+
 
 
 namespace TamagouchiClinet
@@ -19,15 +24,18 @@ namespace TamagouchiClinet
                 base.Show();
                 Console.WriteLine("Enter your pet's name!!!");
                     string petName = Console.ReadLine();
-                    UIMain.CurrentAnimal = UIMain.db.AddAnimal(petName, UIMain.CurrentPlayer);
+
+                Task<AnimalDTO> t = UIMain.WebAPI.AddPetAsync(petName);
+                t.Wait();
+                UIMain.CurrentAnimal = t.Result;
                 if(UIMain.CurrentAnimal == null)
                 {
                     Console.WriteLine("Something went wrong. Please try again");
                 }
             }
-            UIMain.db.SaveChanges();
-            UIMain.CurrentPlayer.ChangeActiveAnimal( UIMain.CurrentAnimal);
-            UIMain.db.SaveChanges();
+            
+           
+            
            
            LoginIn signUpFirst = new LoginIn();
             signUpFirst.Show();

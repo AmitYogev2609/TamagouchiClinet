@@ -1,6 +1,11 @@
-﻿using System;
+﻿using TamagouchiClinet.DataTransferObjects;
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+
 
 namespace TamagouchiClinet
 {
@@ -26,13 +31,18 @@ namespace TamagouchiClinet
                 string email = Console.ReadLine();
                 Console.WriteLine($"Please enter your password: ");
                 string password = Console.ReadLine();
-                    UIMain.CurrentPlayer = UIMain.db.LogIn(email,password);
+                    Task<PlayerDTO> t = UIMain.WebAPI.LoginAsync(email, password);
+                    Console.WriteLine("Wait while logging in.....");
+                    t.Wait();
+                    UIMain.CurrentPlayer = t.Result;
+                    
                     if(UIMain.CurrentPlayer==null)
                     {
                         Console.WriteLine("Login fail!! Press any key to try again!");
                         Console.ReadKey();
                     }
                 }
+
                 UIMain.CurrentAnimal = UIMain.CurrentPlayer.FindPet();
                 if (!(UIMain.CurrentAnimal==null))
                 {
