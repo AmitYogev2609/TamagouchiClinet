@@ -12,12 +12,15 @@ namespace TamagouchiClinet.DataTransferObjects
         public DateTime AnimalBd { get; set; }
         public int AnimalWegight { get; set; }
         public string Healthcondition { get; set; }
+        public int HealthconditionId { get; set; }
         public int PlayerId { get; set; }
+        public string AnimalCycle { get; set; }
         public int AnimalCycleId { get; set; }
         public int AnimalHappy { get; set; }
         public int AnimalHunger { get; set; }
         public int AnimalClean { get; set; }
         public AnimalDTO()
         { }
+       
     }
 }

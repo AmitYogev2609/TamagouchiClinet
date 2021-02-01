@@ -52,25 +52,42 @@ namespace TamagouchiClinet.WebServices
         }
         public async Task<PlayerDTO> SignUpAsync(string firstName, string lastName,  string email, string userName, string password, string gender, DateTime bdate)
         {
-            string url = $"{baseUri}SignUp";
+            string url = $"{baseUri}/SignUp";
+            PlayerDTO p = new PlayerDTO
+            {
+                PfirstName = firstName,
+                PbirthDay = bdate,
+                PlastName = lastName,
+                PlayerGender = gender,
+                PlayerPassword = password,
+                Email = email,
+                UserName = userName
+            };
             try
             {
-                PlayerDTO p = new PlayerDTO
-                {
-                    PfirstName = firstName,
-                    PbirthDay = bdate,
-                    PlastName = lastName,
-                    PlayerGender = gender,
-                    PlayerPassword = password,
-                    Email = email,
-                    UserName = userName
-                };
                 string json = JsonSerializer.Serialize(p);
-
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await this.client.PostAsync(url,content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                        
+                    };
+                    string content2 = await response.Content.ReadAsStringAsync();
+                    PlayerDTO player = JsonSerializer.Deserialize<PlayerDTO>(content2,options);
+                    return player;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            catch
+            catch(Exception e)
             {
-
+                Console.WriteLine(e);      
+                return null;      
             }
         }
 
@@ -78,7 +95,6 @@ namespace TamagouchiClinet.WebServices
         {
             try
             {
-
                 HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/GetAnimals");
                 if (response.IsSuccessStatusCode)
                 {
@@ -103,7 +119,8 @@ namespace TamagouchiClinet.WebServices
         }
 
 
-        public async Task<AnimalDTO> AddPetAsync(string animalName) {
+        public async Task<AnimalDTO> AddPetAsync(string animalName)
+        {
             try
             {
                 HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/AddPet?animalName={animalName}");
@@ -125,6 +142,84 @@ namespace TamagouchiClinet.WebServices
             catch (Exception e)
             {
                 
+                return null;
+            }
+
+        }
+        public async Task<AnimalDTO> ChangesAsync()
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/Changes");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    AnimalDTO p = JsonSerializer.Deserialize<AnimalDTO>(content, options);
+                    return p;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+
+                return null;
+            }
+        }
+    
+        public async Task<AnimalDTO> DoAction(int i)
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/DoAction?i={i}");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    AnimalDTO p = JsonSerializer.Deserialize<AnimalDTO>(content, options);
+                    return p;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+            return null;
+            }
+        }
+        public async Task<List<FunctionDTO>> GetFunctions()
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/GetAction");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<FunctionDTO> p = JsonSerializer.Deserialize<List<FunctionDTO>>(content, options);
+                    return p;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
                 return null;
             }
 

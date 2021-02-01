@@ -5,19 +5,20 @@ using System.Text;
 using System.Linq;
 
 namespace TamagouchiClinet
+{ 
     class MainMenu:Menu
     {
         public MainMenu() : base("tamagochi")
         {
-        
+         
         }
         public override void Show()
         {
             Console.WriteLine($"hello{UIMain.CurrentPlayer.PfirstName+UIMain.CurrentPlayer.PlastName}");
             AddItem("player infomtion", new PlayerInfo());
             
-            if(UIMain.CurrentAnimal.AnimalCycleId==6||UIMain.CurrentAnimal.Healthcondition==4)
-            {
+            if(UIMain.CurrentAnimal== null||UIMain.CurrentAnimal.AnimalCycleId == 6 || UIMain.CurrentAnimal.HealthconditionId == 4 )
+            {   
                 UIMain.CurrentAnimal = null;
                 Console.WriteLine("Your pet has died when you were gone. Please create a new one" );
                 AddItem("create pet", new AddPet());

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using TamagouchiClinet.DataTransferObjects;
 
 
 namespace TamagouchiClinet
@@ -17,10 +18,9 @@ namespace TamagouchiClinet
         {
             base.Show();
             Console.WriteLine();
-            List<Animal> pet = new List<Animal>();
+            List<AnimalDTO> pet = new List<AnimalDTO>();
             pet.Add(UIMain.CurrentAnimal);
-            string health = UIMain.db.GetHealth(UIMain.CurrentAnimal);
-            string lifecycle = UIMain.db.GetLife(UIMain.CurrentAnimal);
+          
             object p = (from a in pet
                         select new
                         {
@@ -28,8 +28,8 @@ namespace TamagouchiClinet
                             Name = a.AnimalName,
                             BirthDate = a.AnimalBd.ToShortDateString(),
                             Weight = a.AnimalWegight,
-                            HealthCondition = health,
-                            LifeCycle = lifecycle,
+                            HealthCondition = a.Healthcondition,
+                            LifeCycle = a.AnimalCycle,
                             Happiness = a.AnimalHappy,
                             Clean = a.AnimalClean,
                             Hunger = a.AnimalHunger,
@@ -44,13 +44,13 @@ namespace TamagouchiClinet
             petView.Show();
             Console.WriteLine();
             Console.WriteLine("Press a to go to actions");
-            char c =Console.ReadKey().KeyChar;
-            if(c=='a'|| c == 'A')
+            char c = Console.ReadKey().KeyChar;
+            if (c == 'a' || c == 'A')
             {
                 DoAction doAction = new DoAction();
                 doAction.Show();
             }
-           
+
 
         }
     }

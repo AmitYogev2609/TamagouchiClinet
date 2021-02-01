@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TamagouchiClinet.DataTransferObjects;
+using TamagouchiClinet.WebServices;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+
 
 namespace TamagouchiClinet
 {
@@ -42,10 +48,14 @@ namespace TamagouchiClinet
                 else
                 { 
                 DateTime BDay = new DateTime(year, month, day);  
-                UIMain.CurrentPlayer  = UIMain.db.AddPlayer(firstName, lastName, email, userName,password, gender, BDay);
-               }
+                    Task<PlayerDTO> player = UIMain.WebAPI.SignUpAsync(firstName, lastName, email, userName,password, gender, BDay);
+                    player.Wait();
+                    UIMain.CurrentPlayer = player.Result;
+                    
+                    
+                }
             }
-          
+          Console.WriteLine("sucses");
             AddPet addPet = new AddPet();
             addPet.Show();
                

@@ -42,17 +42,17 @@ namespace TamagouchiClinet
                         Console.ReadKey();
                     }
                 }
-
-                UIMain.CurrentAnimal = UIMain.CurrentPlayer.FindPet();
+                Task<AnimalDTO> animalDTO = UIMain.WebAPI.GetPlayerAnimalsAsync();
+                animalDTO.Wait();
+                UIMain.CurrentAnimal = animalDTO.Result;
                 if (!(UIMain.CurrentAnimal==null))
                 {
-                    UIMain.db.SaveChanges();
-                    UIMain.CurrentAnimal.Changes();
-                    UIMain.db.SaveChanges();
-                    UIMain.CurrentAnimal.UptadeHealthCondition();
-                    UIMain.db.SaveChanges();
+                    Task<AnimalDTO> dTO = UIMain.WebAPI.ChangesAsync();
+                    dTO.Wait();
+                    UIMain.CurrentAnimal = dTO.Result;
+                   
                 }
-                UIMain.db.SaveChanges();
+               
 
             }
              MainMenu mainMenu = new MainMenu();
