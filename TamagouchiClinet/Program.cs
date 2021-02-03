@@ -8,6 +8,7 @@ namespace TamagouchiClinet
         {
             UIMain ui = new UIMain(new OpenScreen());
             ui.ApplicationStart();
+
         }
     }
 }
