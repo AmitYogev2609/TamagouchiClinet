@@ -51,7 +51,12 @@ namespace TamagouchiClinet
                     Task<PlayerDTO> player = UIMain.WebAPI.SignUpAsync(firstName, lastName, email, userName,password, gender, BDay);
                     player.Wait();
                     UIMain.CurrentPlayer = player.Result;
-                    
+                    if(UIMain.CurrentPlayer==null)
+                    {
+                        Console.WriteLine("smothing went wrong plese try againg");
+                        Console.Clear();
+                        base.Show(); 
+                    }
                     
                 }
             }

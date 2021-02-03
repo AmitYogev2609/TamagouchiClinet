@@ -11,7 +11,7 @@ namespace TamagouchiClinet
 
         }
         public override void Show()
-        {
+        {    
             AddItem("log in", new LoginIn());
             AddItem("sign up", new SignUp());
             base.Show();
